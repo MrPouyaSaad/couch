@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Bodybuilding training program',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Iran-Yekan',
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
