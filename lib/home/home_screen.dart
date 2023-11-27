@@ -73,25 +73,25 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                SizedBox(width: 8),
                                 DropdownMenu(
-                                    label: Text('نام حرکت'),
-                                    dropdownMenuEntries: [
-                                      DropdownMenuEntry(
-                                          value: 0, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 1, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 2, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 3, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 4, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 5, label: 'بالاسینه'),
-                                    ]),
-                                SizedBox(width: 24),
-                                Text('تعداد'),
+                                  label: Text('نام حرکت'),
+                                  dropdownMenuEntries: [
+                                    DropdownMenuEntry(
+                                        value: 0, label: 'بالاسینه'),
+                                    DropdownMenuEntry(
+                                        value: 1, label: 'بالاسینه'),
+                                    DropdownMenuEntry(
+                                        value: 2, label: 'بالاسینه'),
+                                    DropdownMenuEntry(
+                                        value: 3, label: 'بالاسینه'),
+                                    DropdownMenuEntry(
+                                        value: 4, label: 'بالاسینه'),
+                                    DropdownMenuEntry(
+                                        value: 5, label: 'بالاسینه'),
+                                  ],
+                                ),
+                                SizedBox(width: 12),
+                                CountOfExercise(),
                               ],
                             ),
                             Text('+'),
@@ -133,6 +133,97 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class CountOfExercise extends StatefulWidget {
+  const CountOfExercise({
+    super.key,
+  });
+
+  @override
+  State<CountOfExercise> createState() => _CountOfExerciseState();
+}
+
+class _CountOfExerciseState extends State<CountOfExercise> {
+  String count = '';
+  bool isEmpty = false;
+  late TextEditingController _controller;
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        showCountDialog(context);
+      },
+      child: Text(
+        count == '' ? 'تعداد' : count,
+        textDirection: TextDirection.ltr,
+        style: TextStyle(letterSpacing: count == '' ? 0 : 2),
+      ),
+    );
+  }
+
+  Future<dynamic> showCountDialog(BuildContext context) {
+    return showAdaptiveDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog.adaptive(
+          actionsAlignment: MainAxisAlignment.spaceAround,
+          content: Directionality(
+            textDirection: TextDirection.rtl,
+            child: TextField(
+              controller: _controller,
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.phone,
+              textDirection: TextDirection.ltr,
+              decoration: InputDecoration(
+                errorText: isEmpty ? 'نمیتواند خالی باشد!' : null,
+                hintText: 'تعداد را وارد کنید',
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  setState(() {
+                    count = _controller.text;
+                    isEmpty = false;
+                  });
+                  Navigator.of(context).pop();
+                } else {
+                  setState(() {
+                    isEmpty = true;
+                    Navigator.of(context).pop();
+                    showCountDialog(context);
+                  });
+                }
+              },
+              child: Text('تایید'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('لغو'),
+            )
+          ],
+        );
+      },
     );
   }
 }
