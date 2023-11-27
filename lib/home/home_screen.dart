@@ -34,105 +34,104 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('طراحی برنامه تمرینی'),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          try {
-            final String path = await savePdf();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('PDF saved at $path')),
-            );
-            // Open the PDF file
-            OpenFile.open(path);
-          } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error: $e')),
-            );
-            print(e);
-          }
-        },
-        label: Text('چاپ').marginSymmetric(horizontal: 24, vertical: 12),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: ListView.builder(
-        itemCount: 3,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        itemBuilder: (context, index) {
-          if (index == 0) {
-            return Header();
-          } else
-            return Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  child: Row(
-                    children: [
-                      Text('${index - 1}'),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(width: 8),
-                              DropdownMenu(
-                                  label: Text('نام حرکت'),
-                                  dropdownMenuEntries: [
-                                    DropdownMenuEntry(
-                                        value: 0, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 1, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 2, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 3, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 4, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 5, label: 'بالاسینه'),
-                                  ]),
-                              SizedBox(width: 24),
-                              Text('تعداد'),
-                            ],
-                          ),
-                          Text('+'),
-                          Row(
-                            children: [
-                              SizedBox(width: 8),
-                              DropdownMenu(
-                                  label: Text('نام حرکت'),
-                                  dropdownMenuEntries: [
-                                    DropdownMenuEntry(
-                                        value: 0, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 1, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 2, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 3, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 4, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 5, label: 'بالاسینه'),
-                                  ]),
-                              SizedBox(width: 24),
-                              Text('تعداد'),
-                            ],
-                          ),
-                        ],
-                      ),
-                      Spacer(),
-                      Icon(Icons.image),
-                      Spacer(),
-                      Icon(Icons.image),
-                    ],
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            try {
+              final String path = await savePdf();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('PDF saved at $path')),
+              );
+              // Open the PDF file
+              OpenFile.open(path);
+            } catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Error: $e')),
+              );
+              print(e);
+            }
+          },
+          label: Text('چاپ').marginSymmetric(horizontal: 24, vertical: 12),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: ListView.builder(
+          itemCount: 3,
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Header();
+            } else
+              return Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 16),
+                    child: Row(
+                      children: [
+                        Text('${index - 1}'),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(width: 8),
+                                DropdownMenu(
+                                    label: Text('نام حرکت'),
+                                    dropdownMenuEntries: [
+                                      DropdownMenuEntry(
+                                          value: 0, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 1, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 2, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 3, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 4, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 5, label: 'بالاسینه'),
+                                    ]),
+                                SizedBox(width: 24),
+                                Text('تعداد'),
+                              ],
+                            ),
+                            Text('+'),
+                            Row(
+                              children: [
+                                SizedBox(width: 8),
+                                DropdownMenu(
+                                    label: Text('نام حرکت'),
+                                    dropdownMenuEntries: [
+                                      DropdownMenuEntry(
+                                          value: 0, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 1, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 2, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 3, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 4, label: 'بالاسینه'),
+                                      DropdownMenuEntry(
+                                          value: 5, label: 'بالاسینه'),
+                                    ]),
+                                SizedBox(width: 24),
+                                Text('تعداد'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Icon(Icons.image),
+                        Spacer(),
+                        Icon(Icons.image),
+                      ],
+                    ),
                   ),
-                ),
-                Divider(),
-              ],
-            );
-        },
+                  Divider(),
+                ],
+              );
+          },
+        ),
       ),
     );
   }
