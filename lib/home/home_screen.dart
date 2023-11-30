@@ -1,10 +1,16 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
+
+import 'package:couch/model/exercise.dart';
+import 'package:couch/model/list.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -55,84 +61,130 @@ class HomeScreen extends StatelessWidget {
           label: Text('چاپ').marginSymmetric(horizontal: 24, vertical: 12),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: ListView.builder(
-          itemCount: 3,
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          itemBuilder: (context, index) {
-            if (index == 0) {
-              return Header();
-            } else
-              return Column(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: Row(
-                      children: [
-                        Text('${index - 1}'),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                DropdownMenu(
-                                  label: Text('نام حرکت'),
-                                  dropdownMenuEntries: [
-                                    DropdownMenuEntry(
-                                        value: 0, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 1, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 2, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 3, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 4, label: 'بالاسینه'),
-                                    DropdownMenuEntry(
-                                        value: 5, label: 'بالاسینه'),
-                                  ],
-                                ),
-                                SizedBox(width: 12),
-                                CountOfExercise(),
-                              ],
-                            ),
-                            Text('+'),
-                            Row(
-                              children: [
-                                SizedBox(width: 8),
-                                DropdownMenu(
-                                    label: Text('نام حرکت'),
-                                    dropdownMenuEntries: [
-                                      DropdownMenuEntry(
-                                          value: 0, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 1, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 2, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 3, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 4, label: 'بالاسینه'),
-                                      DropdownMenuEntry(
-                                          value: 5, label: 'بالاسینه'),
-                                    ]),
-                                SizedBox(width: 24),
-                                Text('تعداد'),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Spacer(),
-                        Icon(Icons.image),
-                        Spacer(),
-                        Icon(Icons.image),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                ],
-              );
-          },
-        ),
+        body: ExerciseList(),
       ),
+    );
+  }
+}
+
+class ExerciseList extends StatefulWidget {
+  const ExerciseList({
+    super.key,
+  });
+
+  @override
+  State<ExerciseList> createState() => _ExerciseListState();
+}
+
+class _ExerciseListState extends State<ExerciseList> {
+  final bazooList = bazoo;
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 3,
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      itemBuilder: (context, index) {
+        if (index == 0) {
+          return Header();
+        } else
+          return Column(
+            children: [
+              ExerciseNumber(index: index),
+              Container(
+                width: double.infinity,
+                margin: const EdgeInsets.symmetric(vertical: 16),
+                child: Column(
+                  children: [
+                    AddExerciseItem(exercises: bazooList),
+                    Text('+'),
+                    AddExerciseItem(exercises: bazooList),
+                  ],
+                ),
+              ),
+              if (index == 2) Divider(),
+            ],
+          );
+      },
+    );
+  }
+}
+
+class AddExerciseItem extends StatefulWidget {
+  const AddExerciseItem({
+    Key? key,
+    required this.exercises,
+  }) : super(key: key);
+  final List<ExerciseModel> exercises;
+
+  @override
+  State<AddExerciseItem> createState() => _AddExerciseItemState();
+}
+
+class _AddExerciseItemState extends State<AddExerciseItem> {
+  final basePath = 'assets/images/';
+  bool isSelected = false;
+  String imagePath = '';
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomDropdown<ExerciseModel>(
+            hintText: 'نام حرکت',
+            excludeSelected: false,
+            headerBuilder: (context, selectedItem) => Text(
+              selectedItem.name,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+            listItemBuilder: (context, item) => Text(
+              item.name,
+              style: TextStyle(fontSize: 12),
+            ),
+            items: List.generate(
+              widget.exercises.length,
+              (index) {
+                final exercise = widget.exercises[index];
+                return exercise;
+              },
+            ),
+            onChanged: (value) {
+              setState(() {
+                imagePath = value.imagePath;
+                isSelected = true;
+              });
+              log('changing value to: $value');
+            },
+          ),
+        ),
+        CountOfExercise(),
+        if (isSelected)
+          Expanded(
+            child: Image.asset(basePath + imagePath),
+          ),
+      ],
+    );
+  }
+}
+
+class ExerciseNumber extends StatelessWidget {
+  const ExerciseNumber({
+    Key? key,
+    required this.index,
+  }) : super(key: key);
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.centerRight,
+      children: [
+        Divider(),
+        CircleAvatar(
+          radius: 12,
+          child: Text(
+            '$index',
+          ),
+        ),
+      ],
     );
   }
 }

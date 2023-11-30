@@ -6,4 +6,9 @@ class ExerciseModel {
     required this.name,
     required this.imagePath,
   });
+
+  @override
+  String toString() {
+    return name;
+  }
 }
