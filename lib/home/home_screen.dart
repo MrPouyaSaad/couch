@@ -110,9 +110,9 @@ class _ExerciseListState extends State<ExerciseList> {
               });
               if (index > 3) {
                 _scrollController.animateTo(
-                  _scrollController.position.maxScrollExtent + 230,
+                  _scrollController.position.maxScrollExtent + 238,
                   curve: Curves.easeOut,
-                  duration: const Duration(milliseconds: 300),
+                  duration: const Duration(milliseconds: 500),
                 );
               }
             },
