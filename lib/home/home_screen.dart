@@ -77,16 +77,48 @@ class ExerciseList extends StatefulWidget {
 }
 
 class _ExerciseListState extends State<ExerciseList> {
+  int listLength = 2;
   final bazooList = bazoo;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: 3,
+      controller: _scrollController,
+      itemCount: listLength,
       padding: EdgeInsets.symmetric(horizontal: 16),
       itemBuilder: (context, index) {
         if (index == 0) {
           return Header();
-        } else
+        } else if (index == listLength - 1)
+          return ElevatedButton(
+            onPressed: () {
+              setState(() {
+                listLength++;
+              });
+              if (index > 3) {
+                _scrollController.animateTo(
+                  _scrollController.position.maxScrollExtent + 230,
+                  curve: Curves.easeOut,
+                  duration: const Duration(milliseconds: 300),
+                );
+              }
+            },
+            child: Text('افزودن حرکت'),
+          ).marginOnly(left: 16, right: 16, top: 24, bottom: 96);
+        else
           return Column(
             children: [
               ExerciseNumber(index: index),
@@ -96,12 +128,12 @@ class _ExerciseListState extends State<ExerciseList> {
                 child: Column(
                   children: [
                     AddExerciseItem(exercises: bazooList),
-                    Text('+'),
+                    Icon(Icons.add),
                     AddExerciseItem(exercises: bazooList),
                   ],
                 ),
               ),
-              if (index == 2) Divider(),
+              if (index == listLength - 1) Divider(),
             ],
           );
       },
