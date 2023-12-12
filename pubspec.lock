@@ -131,6 +131,19 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_to_pdf:
+    dependency: "direct main"
+    description:
+      name: flutter_to_pdf
+      sha256: c0311c9d15d6cd0ffb81c7fd9628794219c9201b165b707310f8070cfc694715
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.1"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   get:
     dependency: "direct main"
     description:
@@ -139,6 +152,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.6"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
+  http_parser:
+    dependency: transitive
+    description:
+      name: http_parser
+      sha256: "2aa08ce0341cc9b354a498388e30986515406668dbcc4f7c950c3e715496693b"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
   image:
     dependency: transitive
     description:
@@ -299,6 +328,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.7.3"
+  printing:
+    dependency: "direct main"
+    description:
+      name: printing
+      sha256: ad39a42a5f83125952457dfd94f395c8cf0eb1f7759583dadb769be5c7f99d24
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.11.1"
   qr:
     dependency: transitive
     description:
